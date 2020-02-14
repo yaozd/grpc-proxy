@@ -21,6 +21,12 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 
 public class Runner {
 
+  /**
+   * java -jar .\grpc-proxy-0.1.0-SNAPSHOT.jar help server 
+   *
+   * java -jar .\grpc-proxy-0.1.0-SNAPSHOT.jar server http
+   * 
+   */
   public static void main(String[] args) {
     SLF4JBridgeHandler.removeHandlersForRootLogger();
     SLF4JBridgeHandler.install();
