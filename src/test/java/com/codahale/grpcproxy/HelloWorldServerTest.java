@@ -1,21 +1,15 @@
 package com.codahale.grpcproxy;
 
-import com.codahale.grpcproxy.util.TlsContext;
+import java.io.IOException;
 import org.junit.Test;
 
-import javax.net.ssl.SSLException;
-import java.io.IOException;
-
-/**
- * @Author: yaozh
- * @Description:
- */
+/** @Author: yaozh @Description: */
 public class HelloWorldServerTest {
-    @Test
-    public void Test() throws IOException, InterruptedException {
-        int port = 50051;
-        final HelloWorldServer server = new HelloWorldServer(port, null);
-        server.start();
-        //new TerminationUtil().blockUntilShutdown();
-    }
+  @Test
+  public void Test() throws IOException, InterruptedException {
+    int port = 50051;
+    final HelloWorldServer server = new HelloWorldServer(port, null);
+    server.start();
+    // new TerminationUtil().blockUntilShutdown();
+  }
 }

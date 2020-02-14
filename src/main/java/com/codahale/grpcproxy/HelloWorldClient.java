@@ -52,7 +52,7 @@ public class HelloWorldClient {
             .eventLoopGroup(eventLoopGroup)
             .channelType(Netty.clientChannelType())
             .negotiationType(NegotiationType.PLAINTEXT)
-            //.sslContext(tls.toClientContext())
+            // .sslContext(tls.toClientContext())
             .build();
     this.blockingStub = GreeterGrpc.newBlockingStub(channel);
   }

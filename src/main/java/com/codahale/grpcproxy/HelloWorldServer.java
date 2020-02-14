@@ -46,13 +46,13 @@ public class HelloWorldServer {
             .workerEventLoopGroup(workerEventLoopGroup)
             .channelType(Netty.serverChannelType())
             .addStreamTracerFactory(stats)
-            //.sslContext(tls.toServerContext())
+            // .sslContext(tls.toServerContext())
             .addService(new GreeterService())
             .build();
   }
 
   public void start() throws IOException, InterruptedException {
-    //stats.start();
+    // stats.start();
     server.start();
     LOGGER.info("Server started, listening on {}", server.getPort());
     Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
