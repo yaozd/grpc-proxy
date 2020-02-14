@@ -14,15 +14,21 @@
   -->
 
 <configuration>
-  <appender class="ch.qos.logback.core.ConsoleAppender" name="console">
-    <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-      <jsonGeneratorDecorator class="com.codahale.grpcproxy.util.PrettyPrintingDecorator"/>
-    </encoder>
-  </appender>
-  <appender class="ch.qos.logback.classic.AsyncAppender" name="console-async">
-    <appender-ref ref="console"/>
-  </appender>
-  <root level="info">
-    <appender-ref ref="console-async"/>
-  </root>
+    <appender class="ch.qos.logback.core.ConsoleAppender" name="console">
+        <!--
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+              <jsonGeneratorDecorator class="com.codahale.grpcproxy.util.PrettyPrintingDecorator"/>
+        </encoder>
+        -->
+        <encoder>
+            <!--%-4relative:第一个字段代表从程序启动开始后经过的毫秒数-->　　　　　　　　　
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</pattern>　　　　　
+        </encoder>
+    </appender>
+    <appender class="ch.qos.logback.classic.AsyncAppender" name="console-async">
+        <appender-ref ref="console"/>
+    </appender>
+    <root level="info">
+        <appender-ref ref="console-async"/>
+    </root>
 </configuration>

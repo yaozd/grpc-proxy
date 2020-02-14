@@ -24,6 +24,7 @@ import io.airlift.airline.Command;
 import io.airlift.airline.Option;
 import io.grpc.ManagedChannel;
 import io.grpc.StatusRuntimeException;
+import io.grpc.netty.NegotiationType;
 import io.grpc.netty.NettyChannelBuilder;
 import io.netty.channel.EventLoopGroup;
 import java.time.Duration;
@@ -37,30 +38,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** A gRPC client. This could be in any language. */
-class HelloWorldClient {
+public class HelloWorldClient {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorldClient.class);
   private final EventLoopGroup eventLoopGroup;
   private final ManagedChannel channel;
   private final GreeterGrpc.GreeterBlockingStub blockingStub;
 
-  private HelloWorldClient(String host, int port, TlsContext tls) throws SSLException {
+  public HelloWorldClient(String host, int port, TlsContext tls) throws SSLException {
     this.eventLoopGroup = Netty.newWorkerEventLoopGroup();
     this.channel =
         NettyChannelBuilder.forAddress(host, port)
             .eventLoopGroup(eventLoopGroup)
             .channelType(Netty.clientChannelType())
-            .sslContext(tls.toClientContext())
+            .negotiationType(NegotiationType.PLAINTEXT)
+            //.sslContext(tls.toClientContext())
             .build();
     this.blockingStub = GreeterGrpc.newBlockingStub(channel);
   }
 
-  private void shutdown() throws InterruptedException {
+  public void shutdown() throws InterruptedException {
     channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     eventLoopGroup.shutdownGracefully(0, 0, TimeUnit.SECONDS);
   }
 
-  private String greet(int i) {
+  public String greet(int i) {
     try {
       final HelloRequest request = HelloRequest.newBuilder().setName("world " + i).build();
       return blockingStub.sayHello(request).getMessage();

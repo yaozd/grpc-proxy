@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** A gRPC server which proxies requests to an HTTP/1.1 backend server. */
-class ProxyRpcServer {
+public class ProxyRpcServer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ProxyRpcServer.class);
   private final EventLoopGroup bossEventLoopGroup;
@@ -38,7 +38,7 @@ class ProxyRpcServer {
   private final Server server;
   private final StatsTracerFactory stats;
 
-  private ProxyRpcServer(int port, TlsContext tls, HttpUrl backend) throws SSLException {
+  public ProxyRpcServer(int port, TlsContext tls, HttpUrl backend) throws SSLException {
     this.stats = new StatsTracerFactory();
     this.bossEventLoopGroup = Netty.newBossEventLoopGroup();
     this.workerEventLoopGroup = Netty.newWorkerEventLoopGroup();
@@ -48,13 +48,13 @@ class ProxyRpcServer {
             .workerEventLoopGroup(workerEventLoopGroup)
             .channelType(Netty.serverChannelType())
             .addStreamTracerFactory(stats)
-            .sslContext(tls.toServerContext())
+            //.sslContext(tls.toServerContext())
             .fallbackHandlerRegistry(new ProxyHandlerRegistry(backend))
             .build();
   }
 
-  private void start() throws IOException {
-    stats.start();
+  public void start() throws IOException {
+    //stats.start();
     server.start();
     LOGGER.info("Server started, listening on " + server.getPort());
     Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
@@ -69,7 +69,7 @@ class ProxyRpcServer {
     workerEventLoopGroup.shutdownGracefully(0, 0, TimeUnit.SECONDS);
   }
 
-  private void blockUntilShutdown() throws InterruptedException {
+  public void blockUntilShutdown() throws InterruptedException {
     server.awaitTermination();
   }
 

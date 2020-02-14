@@ -33,12 +33,12 @@ import org.slf4j.LoggerFactory;
  * An HTTP/1.1 server which parses protobuf messages in request bodies and emits protobuf messages
  * in response bodies. Implements, in its own way, the {@code helloworld.Greeter} service.
  */
-class LegacyHttpServer {
+public class LegacyHttpServer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LegacyHttpServer.class);
   private final Server server;
 
-  private LegacyHttpServer(int port, int threads) {
+  public LegacyHttpServer(int port, int threads) {
     this.server = new Server(new QueuedThreadPool(threads));
     server.setHandler(
         new AbstractHandler() {
@@ -62,7 +62,7 @@ class LegacyHttpServer {
     server.addConnector(connector);
   }
 
-  private void start() throws Exception {
+  public void start() throws Exception {
     Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
     server.start();
   }

@@ -1,6 +1,11 @@
 # gprc-proxy
 
 An experiment in writing a gRPC proxy frontend for HTTP/protobuf services.
+## 首次执行
+```
+1.执行：mvn-protobuf-bulid.bat
+2.执行：测试程序
+```
 
 ## No. Why.
 

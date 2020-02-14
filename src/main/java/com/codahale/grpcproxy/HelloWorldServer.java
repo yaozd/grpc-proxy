@@ -28,7 +28,7 @@ import javax.net.ssl.SSLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class HelloWorldServer {
+public class HelloWorldServer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ProxyRpcServer.class);
   private final EventLoopGroup bossEventLoopGroup;
@@ -36,7 +36,7 @@ class HelloWorldServer {
   private final Server server;
   private final StatsTracerFactory stats;
 
-  private HelloWorldServer(int port, TlsContext tls) throws SSLException {
+  public HelloWorldServer(int port, TlsContext tls) throws SSLException {
     this.stats = new StatsTracerFactory();
     this.bossEventLoopGroup = Netty.newBossEventLoopGroup();
     this.workerEventLoopGroup = Netty.newWorkerEventLoopGroup();
@@ -46,13 +46,13 @@ class HelloWorldServer {
             .workerEventLoopGroup(workerEventLoopGroup)
             .channelType(Netty.serverChannelType())
             .addStreamTracerFactory(stats)
-            .sslContext(tls.toServerContext())
+            //.sslContext(tls.toServerContext())
             .addService(new GreeterService())
             .build();
   }
 
-  private void start() throws IOException, InterruptedException {
-    stats.start();
+  public void start() throws IOException, InterruptedException {
+    //stats.start();
     server.start();
     LOGGER.info("Server started, listening on {}", server.getPort());
     Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
